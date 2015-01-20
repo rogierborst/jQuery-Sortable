@@ -1,0 +1,8 @@
+{
+  "src_files": [
+    "tests/**/*.js"
+  ],
+
+  "test_page": "tests/testRunner.html"
+
+}

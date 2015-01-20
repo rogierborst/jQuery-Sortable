@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+    <title>Test'em Sortable tests</title>
+    <script src="/testem/jasmine.js"></script>
+    <script src="/testem.js"></script>
+    <script src="/testem/jasmine-html.js"></script>
+    <script>
+        (function() {
+            var jasmineEnv = jasmine.getEnv()
+            jasmineEnv.addReporter(new jasmine.HtmlReporter)
+            window.onload = function() {
+                jasmineEnv.execute()
+            };
+        })();
+    </script>
+    <link rel="stylesheet" href="/testem/jasmine.css">
+</head>
+<body>
+<div id="jasmine_content"></div>
+</body>
+</html>
