@@ -72,6 +72,17 @@ describe('Sortable jQuery', function(){
             expect(firstColumnValues).toEqual(['bravo', 'foxtrot', 'uniform', 'zulu']);
         });
 
+        it('should not be case sensitive', function(){
+            $('td', $table.find('tbody tr')).filter(function(){
+                return $(this).text() === 'foxtrot';
+            }).text('Foxtrot');
+
+            $table.sortable();
+
+            var firstColumnValues = valuesForColumn($table, 0);
+            expect(firstColumnValues).toEqual(['bravo', 'Foxtrot', 'uniform', 'zulu']);
+        });
+
         it('should sort in reverse order when th is clicked twice', function(){
             $table.sortable();
 
