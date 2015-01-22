@@ -23,11 +23,8 @@ describe('Sortable jQuery', function(){
         it('should order the table at startup by default', function(){
             $table.sortable();
 
-            var firstColValues = valuesForColumn($table, 0),
-                secondColValues = valuesForColumn($table, 1);
-
-            expect(firstColValues).toEqual(['bravo', 'foxtrot', 'uniform', 'zulu']);
-            expect(secondColValues).toEqual(['2', '4', '1', '3']);
+            expect(valuesForColumn($table, 0)).toEqual(['bravo', 'foxtrot', 'uniform', 'zulu']);
+            expect(valuesForColumn($table, 1)).toEqual(['2', '4', '1', '3']);
         });
 
         it('should not order the table if told not to do so at start', function(){
@@ -35,11 +32,8 @@ describe('Sortable jQuery', function(){
                 sortAtStart: false
             });
 
-            var firstColumnValues = valuesForColumn($table, 0),
-                secondColumnValues = valuesForColumn($table, 1);
-
-            expect(firstColumnValues).toEqual(['foxtrot', 'zulu', 'uniform', 'bravo']);
-            expect(secondColumnValues).toEqual(['4', '3', '1', '2']);
+            expect(valuesForColumn($table, 0)).toEqual(['foxtrot', 'zulu', 'uniform', 'bravo']);
+            expect(valuesForColumn($table, 1)).toEqual(['4', '3', '1', '2']);
         });
 
         it('should sort on column specified in options', function(){
@@ -48,8 +42,7 @@ describe('Sortable jQuery', function(){
                 initialSortOrder: 'desc'
             });
 
-            var secondColumnValues = valuesForColumn($table, 1);
-            expect(secondColumnValues).toEqual(['4', '3', '2', '1']);
+            expect(valuesForColumn($table, 1)).toEqual(['4', '3', '2', '1']);
         });
     });
 
@@ -68,8 +61,18 @@ describe('Sortable jQuery', function(){
 
             $table.find('thead th').eq(0).trigger('click');
 
-            var firstColumnValues = valuesForColumn($table, 0);
-            expect(firstColumnValues).toEqual(['bravo', 'foxtrot', 'uniform', 'zulu']);
+            expect(valuesForColumn($table, 0)).toEqual(['bravo', 'foxtrot', 'uniform', 'zulu']);
+        });
+
+        it('should not sort when th is clicked with data-sortable="false"', function(){
+            $('th', $table).eq(1).data('sortable', 'false');
+            $table.sortable({
+                sortAtStart: false
+            });
+
+            $table.find('th').eq(1).trigger('click');
+
+            expect(valuesForColumn($table, 1)).toEqual(['4', '3', '1', '2']);
         });
 
         it('should not be case sensitive', function(){
@@ -79,17 +82,15 @@ describe('Sortable jQuery', function(){
 
             $table.sortable();
 
-            var firstColumnValues = valuesForColumn($table, 0);
-            expect(firstColumnValues).toEqual(['bravo', 'Foxtrot', 'uniform', 'zulu']);
+            expect(valuesForColumn($table, 0)).toEqual(['bravo', 'Foxtrot', 'uniform', 'zulu']);
         });
 
         it('should sort in reverse order when th is clicked twice', function(){
             $table.sortable();
 
             $table.find('thead th').eq(1).trigger('click').trigger('click');
-
-            var secondColumnValues = valuesForColumn($table, 1);
-            expect(secondColumnValues).toEqual(['4', '3', '2', '1']);
+            
+            expect(valuesForColumn($table, 1)).toEqual(['4', '3', '2', '1']);
         });
 
         it('should apply default classes to th\'s of sorted columns', function(){

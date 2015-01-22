@@ -33,6 +33,10 @@
         self.currentSortingDirection = self.config.initialSortOrder;
 
         $table.on('click', 'th', function(){
+            if ( $(this).data('sortable') !== 'undefined' && $(this).data('sortable') === 'false' ) {
+                return false;
+            }
+
             var clickedColumnIndex = $(this).index();
             self.sort(clickedColumnIndex);
             self.currentSortingColumnIndex = clickedColumnIndex;
