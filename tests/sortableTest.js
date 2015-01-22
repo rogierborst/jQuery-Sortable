@@ -64,6 +64,16 @@ describe('Sortable jQuery', function(){
             expect(valuesForColumn($table, 0)).toEqual(['bravo', 'foxtrot', 'uniform', 'zulu']);
         });
 
+        it('should not be case sensitive', function(){
+            $('td', $table.find('tbody tr')).filter(function(){
+                return $(this).text() === 'foxtrot';
+            }).text('Foxtrot');
+
+            $table.sortable();
+
+            expect(valuesForColumn($table, 0)).toEqual(['bravo', 'Foxtrot', 'uniform', 'zulu']);
+        });
+
         it('should not sort when th is clicked with data-sortable="false"', function(){
             $('th', $table).eq(1).data('sortable', 'false');
             $table.sortable({
@@ -75,22 +85,23 @@ describe('Sortable jQuery', function(){
             expect(valuesForColumn($table, 1)).toEqual(['4', '3', '1', '2']);
         });
 
-        it('should not be case sensitive', function(){
-            $('td', $table.find('tbody tr')).filter(function(){
-                return $(this).text() === 'foxtrot';
-            }).text('Foxtrot');
-
-            $table.sortable();
-
-            expect(valuesForColumn($table, 0)).toEqual(['bravo', 'Foxtrot', 'uniform', 'zulu']);
-        });
-
         it('should sort in reverse order when th is clicked twice', function(){
             $table.sortable();
 
             $table.find('thead th').eq(1).trigger('click').trigger('click');
-            
+
             expect(valuesForColumn($table, 1)).toEqual(['4', '3', '2', '1']);
+        });
+
+        it('should prevent default behavior when th contains a link', function(){
+            var event = $.Event('click');
+            $table.find('th').eq(0).html('<a href="link">I am a link</a>');
+            $table.sortable();
+
+            $table.find('thead th').eq(0).trigger(event);
+
+            expect(event.isDefaultPrevented()).toBeTruthy();
+            expect(valuesForColumn($table, 0)).toEqual(['zulu', 'uniform', 'foxtrot', 'bravo']);
         });
 
         it('should apply default classes to th\'s of sorted columns', function(){
