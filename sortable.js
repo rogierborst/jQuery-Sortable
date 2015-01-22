@@ -20,7 +20,9 @@
         classes: {
             thSortedAsc: 'is-sorted-asc',
             thSortedDesc: 'is-sorted-desc'
-        }
+        },
+        onBeforeSort: function(){},
+        onAfterSort: function(){}
     };
 
     function Sortable($table, options){
@@ -50,8 +52,10 @@
         },
 
         sort: function(columnIndex, direction) {
-            var self = this;
-            var $rows = $('tbody tr', this.$table);
+            var self = this,
+                $rows = $('tbody tr', this.$table);
+
+            this.config.onBeforeSort.call(this, columnIndex);
 
             if ( typeof direction !== 'undefined' ){
                 self.currentSortingDirection = direction;
@@ -76,6 +80,8 @@
             $.each($rows, function(index, row){
                 self.$table.append(row);
             });
+
+            this.config.onAfterSort.call(this, columnIndex);
         },
 
         toggleSortingDirection: function(){

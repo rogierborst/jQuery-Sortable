@@ -122,6 +122,40 @@ describe('Sortable jQuery', function(){
             expect($th).not.toHaveClass('is-sorted-desc');
         });
     });
+
+    describe('Callbacks', function(){
+        var $table,
+            observer = {callback: function(){}};
+
+        beforeEach(function(){
+            loadFixtures('simpleTable.html');
+            $table = $('#simpleTable');
+        });
+
+        it('should execute callback function before sorting', function(){
+            spyOn(observer, 'callback');
+            $table.sortable({
+                sortAtStart: false,
+                onBeforeSort: observer.callback
+            });
+
+            $table.find('th').eq(0).trigger('click');
+
+            expect(observer.callback).toHaveBeenCalled();
+        });
+
+        it('should execute callback function after sorting', function(){
+            spyOn(observer, 'callback');
+            $table.sortable({
+                sortAtStart: false,
+                onAfterSort: observer.callback
+            });
+
+            $table.find('th').eq(0).trigger('click');
+
+            expect(observer.callback).toHaveBeenCalled();
+        });
+    });
 });
 
 function valuesForColumn($table, colIndex){
