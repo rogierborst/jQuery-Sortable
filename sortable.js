@@ -1,5 +1,17 @@
-(function ($, window, document, undefined){
+(function (factory) {
     'use strict';
+
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], factory);
+    } else if (typeof exports === 'object') {
+        // Node/CommonJS
+        factory(require('jquery'));
+    } else {
+        // Browser globals
+        factory(jQuery);
+    }
+}(function($){
 
     var defaults = {
         sortAtStart: true,
@@ -15,13 +27,13 @@
         var self = this;
         self.config = $.extend({}, defaults, options);
         self.$table = $table;
-        self.sortingColumnIndex = self.config.initialSortColumn;
-        self.sortingDirection = self.config.initialSortOrder;
+        self.currentSortingColumnIndex = self.config.initialSortColumn;
+        self.currentSortingDirection = self.config.initialSortOrder;
 
         $table.on('click', 'th', function(){
             var clickedColumnIndex = $(this).index();
             self.sort(clickedColumnIndex);
-            self.sortingColumnIndex = clickedColumnIndex;
+            self.currentSortingColumnIndex = clickedColumnIndex;
         });
 
         self.init();
@@ -30,41 +42,44 @@
     Sortable.prototype = {
 
         init: function() {
-            if (this.config.sortAtStart) {
-                this.changeSortingDirection();
-                this.sort(this.sortingColumnIndex, this.initialSortOrder);
+            if ( this.config.sortAtStart ) {
+                this.sort(this.currentSortingColumnIndex, this.config.initialSortOrder);
+            } else {
+                this.currentSortingColumnIndex = -1;
             }
         },
 
-        sort: function(columnIndex) {
+        sort: function(columnIndex, direction) {
             var self = this;
             var $rows = $('tbody tr', this.$table);
 
-            if ( columnIndex === self.sortingColumnIndex ){
-                self.changeSortingDirection();
+            if ( typeof direction !== 'undefined' ){
+                self.currentSortingDirection = direction;
+            } else if ( columnIndex === self.currentSortingColumnIndex ){
+                self.toggleSortingDirection();
             } else {
-                self.sortingDirection = 'asc';
+                self.currentSortingDirection = 'asc';
             }
 
             $rows.sort(function(a, b){
                 var keyA = $('td', a).eq([columnIndex]).text();
                 var keyB = $('td', b).eq([columnIndex]).text();
 
-                if ( self.sortingDirection === 'desc') {
+                if ( self.currentSortingDirection === 'desc') {
                     return keyB.localeCompare(keyA);
                 }
                 return keyA.localeCompare(keyB);
             });
 
-            this.setClasses(columnIndex, self.sortingDirection);
+            this.setClasses(columnIndex, self.currentSortingDirection);
 
             $.each($rows, function(index, row){
                 self.$table.append(row);
             });
         },
 
-        changeSortingDirection: function(){
-            this.sortingDirection = (this.sortingDirection === 'asc') ? 'desc' : 'asc';
+        toggleSortingDirection: function(){
+            this.currentSortingDirection = (this.currentSortingDirection === 'asc') ? 'desc' : 'asc';
         },
 
         setClasses: function(columnIndex, direction){
@@ -82,5 +97,6 @@
         });
     };
 
-})(jQuery, window, document);
+}));
+
 
