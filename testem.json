@@ -1,8 +1,11 @@
 {
   "src_files": [
+    "sortable.js",
     "tests/**/*.js"
   ],
 
-  "test_page": "tests/testRunner.html"
+  "framework": "jasmine2",
+
+  "test_page": "testRunner.mustache"
 
 }

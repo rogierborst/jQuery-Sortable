@@ -1,0 +1,23 @@
+{
+  "name": "Sortable",
+  "version": "1.0.0",
+  "authors": [
+    "Rogier <borst@xs4all.nl>"
+  ],
+  "main": "sortable.js",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "jasmine-jquery": "~2.0.5"
+  }
+}
