@@ -1,3 +1,12 @@
+/*!
+ * Sortable jQuery plugin v1.0.0
+ * https://github.com/rogierborst/jQuery-Sortable
+ *
+ * Copyright 2015 Rogier Borst
+ * Released under the MIT license
+ */
+
+/* global define, require, jQuery */
 (function (factory) {
     'use strict';
 
