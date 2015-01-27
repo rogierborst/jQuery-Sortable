@@ -18,6 +18,8 @@
         initialSortColumn: 0,
         initialSortOrder: 'asc',
         classes: {
+            oddRows: '',
+            evenRows: '',
             thSortedAsc: 'is-sorted-asc',
             thSortedDesc: 'is-sorted-desc'
         },
@@ -55,6 +57,10 @@
             } else {
                 this.currentSortingColumnIndex = -1;
             }
+
+            if ( this.config.classes.oddRows || this.config.classes.evenRows ) {
+                this.setRowClasses();
+            }
         },
 
         sort: function(columnIndex, direction) {
@@ -81,11 +87,13 @@
                 return keyA.localeCompare(keyB);
             });
 
-            this.setClasses(columnIndex, self.currentSortingDirection);
+            this.setHeaderClasses(columnIndex, self.currentSortingDirection);
 
             $.each($rows, function(index, row){
                 self.$table.append(row);
             });
+
+            this.setRowClasses();
 
             this.config.onAfterSort.call(this, columnIndex);
         },
@@ -94,10 +102,27 @@
             this.currentSortingDirection = (this.currentSortingDirection === 'asc') ? 'desc' : 'asc';
         },
 
-        setClasses: function(columnIndex, direction){
-            var className = (direction === 'asc') ? this.config.classes.thSortedAsc : this.config.classes.thSortedDesc;
+        setHeaderClasses: function(columnIndex, direction){
+            var thClassName = (direction === 'asc') ? this.config.classes.thSortedAsc : this.config.classes.thSortedDesc;
+
             $('.' + this.config.classes.thSortedAsc + ', .' + this.config.classes.thSortedDesc).removeClass();
-            this.$table.find('th:eq(' + columnIndex + ')').addClass(className);
+
+            $('th', this.$table).eq(columnIndex).addClass(thClassName);
+        },
+
+        setRowClasses: function(){
+            var oddRowClass = this.config.classes.oddRows,
+                evenRowClass = this.config.classes.evenRows;
+
+            $('tbody tr', this.$table).removeClass(oddRowClass + ' ' + evenRowClass);
+
+            if ( oddRowClass ) {
+                $('tbody tr:visible:even', this.$table).addClass(oddRowClass);
+            }
+
+            if ( evenRowClass ) {
+                $('tbody tr:visible:odd', this.$table).addClass(evenRowClass);
+            }
         }
 
     };

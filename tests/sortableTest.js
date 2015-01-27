@@ -44,6 +44,28 @@ describe('Sortable jQuery', function(){
 
             expect(valuesForColumn($table, 1)).toEqual(['4', '3', '2', '1']);
         });
+
+        it('should apply odd classes on odd rows if set so in options', function(){
+            $table.sortable({
+                classes: {
+                    oddRows: 'is-odd'
+                }
+            });
+
+            expect($('tbody tr:even', $table)).toHaveClass('is-odd');
+            expect($('tbody tr:odd', $table)).not.toHaveClass('is-odd');
+        });
+
+        it('should apply even classes on even rows if set so in options', function(){
+            $table.sortable({
+                classes: {
+                    evenRows: 'is-even'
+                }
+            });
+
+            expect($('tbody tr:odd', $table)).toHaveClass('is-even');
+            expect($('tbody tr:even', $table)).not.toHaveClass('is-even');
+        })
     });
 
     describe('After initialization', function(){
@@ -91,6 +113,19 @@ describe('Sortable jQuery', function(){
             $table.find('thead th').eq(1).trigger('click').trigger('click');
 
             expect(valuesForColumn($table, 1)).toEqual(['4', '3', '2', '1']);
+        });
+
+        it('should re-apply odd row classes after sorting', function(){
+            $table.sortable({
+                classes: {
+                    oddRows: 'is-odd'
+                }
+            });
+
+            $('thead th', $table).eq(1).trigger('click');
+
+            expect($('tbody tr:even', $table)).toHaveClass('is-odd');
+            expect($('tbody tr:odd', $table)).not.toHaveClass('is-odd');
         });
 
         it('should prevent default behavior when th contains a link', function(){

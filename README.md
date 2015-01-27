@@ -39,6 +39,8 @@ Option | Description | Default
 -------|-------------|--------
 **thSortedAsc** *(string)* | The class assigned to the `th` when the table is sorted on that column in *ascending* order. | *'is-sorted-asc'*
 **thSortedDesc** *(string)* | The class assigned to the `th` when the table is sorted on that column in * descending* order. | *'is-sorted-desc'*
+**oddRows** *(string)* | If you use classes on your table rows for zebra-striping (rather than, for example, the `nth-child(odd)` css selector), this is where you can set the class name you want applied to your *odd* rows. This class will be applied at initialization and will be re-applied after each sort. | *''*
+**evenRows** *(string)* | Likewise, if you wish to set classes on your *even* rows, this is where you can set that class. Typically you'd apply classes to *either* odd *or* even rows, and let the default table styling take care of the other rows. | *''*
 
 ### Callbacks
 *More information will follow shortly*
