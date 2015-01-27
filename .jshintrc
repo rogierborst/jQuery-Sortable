@@ -1,0 +1,11 @@
+{
+  "curly": true,
+  "eqeqeq": true,
+  "expr": true,
+  "newcap": true,
+  "noarg": true,
+  "nonbsp": true,
+  "trailing": true,
+  "undef": true,
+  "unused": true
+}
