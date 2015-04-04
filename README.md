@@ -71,6 +71,22 @@ On the `th` set the `data-sortable` attribute to false, like so:
 ```
 and clicking that `th` will not have any effect anymore.
 
+### Date & Time
+If a column contains dates (or times, or a combination of both), you can specify the date format template that is used on the `th`. Consider the following table:
+
+Game title | Release Date
+-----------|-------------
+Grand Theft Auto | 11-10-1997
+World of Warcraft | 22-11-2004
+Battlefield 1942 | 28-06-2002
+
+If you want your users to be able to sort on the second column by date, you can set the `data-sortable-date` attribute on the `th` for that column. As a value, you supply the format template that is used for the dates in the cells, like so:
+```html
+<th data-sortable-date="dd-MM-yyyy">
+```
+where `dd` stands for double digit date, `MM` stands for double digit month and `yyyy` stands for full year.
+The formatting used here is the [Java SimpleDateFormat](http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html), so be careful when you come from, say, a php background, where minutes are referred to as `ii` instead of `mm`. 
+
 ### Using links inside table headers
 Let's say you're a good boy and want your tables to be sortable even when the client has JavaScript disabled. In that case, you're probably using links inside your header cells that point to some server-side sorting functionality.
 
