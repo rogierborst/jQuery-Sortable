@@ -30,17 +30,10 @@ Option | Description | Default
 **sortAtStart** *(boolean)* | Set to `false` if you don't want to sort the table at page load | *true*
 **initialSortColumn** *(integer)* | If `sortAtStart` is set to `true`, this is where you can define what column the table is sorted on. This value is zero-based, so to sort on the second column, `initialSortColumn` should be set to `1`. | *0*
 **initialSortOrder** *(string)* | The direction of the sort at page load. (`sortAtStart` should be `true` for this to have any effect). Can be either `'asc'` for ascending or `'desc'` for descending order. | *'asc'*
-**classes** *(object)* | jQuery Sortable automatically sets classes on `th`'s that the table is sorted on. If you want to change those class names, this is where to do it. *[Read more below](class config)*
-
-### <a name="class config"></a>Classes
-jQuery Sortable will assign classes to a `th` when the table is sorted on its column. You can change those class names by passing the following object to the `classes` property of your `options` object.
-
-Option | Description | Default
--------|-------------|--------
-**thSortedAsc** *(string)* | The class assigned to the `th` when the table is sorted on that column in *ascending* order. | *'is-sorted-asc'*
-**thSortedDesc** *(string)* | The class assigned to the `th` when the table is sorted on that column in * descending* order. | *'is-sorted-desc'*
-**oddRows** *(string)* | If you use classes on your table rows for zebra-striping (rather than, for example, the `nth-child(odd)` css selector), this is where you can set the class name you want applied to your *odd* rows. This class will be applied at initialization and will be re-applied after each sort. | *''*
-**evenRows** *(string)* | Likewise, if you wish to set classes on your *even* rows, this is where you can set that class. Typically you'd apply classes to *either* odd *or* even rows, and let the default table styling take care of the other rows. | *''*
+**thSortedAscClass** *(string)* | The class assigned to the `th` when the table is sorted on that column in *ascending* order. | *'is-sorted-asc'*
+**thSortedDescClass** *(string)* | The class assigned to the `th` when the table is sorted on that column in *descending* order. | *'is-sorted-desc'*
+**oddRowClass** *(string)* | If you use classes on your table rows for zebra-striping (rather than, for example, the `nth-child(odd)` css selector), this is where you can set the class name you want applied to your *odd* rows. This class will be applied at initialization and will be re-applied after each sort. | *''*
+**evenRowClass** *(string)* | Likewise, if you wish to set classes on your *even* rows, this is where you can set that class. Typically you'd apply classes to *either* odd *or* even rows, and let the default table styling take care of the other rows. | *''*
 
 ### Callbacks
 *More information will follow shortly*
@@ -48,14 +41,13 @@ Option | Description | Default
 ### Configuration Examples
 ```javascript
 $('table').sortable({
-  sortAtStart: true,           // true by default, so not really necessary
-  initialSortColumn: 2,        // will sort on the third column at page load
-  initialSortOrder: 'desc',    // will sort in descending order at page load
-  
-  classes: {
-    thSortedAsc: 'sorting-up', // assigns 'sorting-up' class to th when appropriate
-    thSortedDesc: 'sorting-down'
-  }
+  sortAtStart: true,          // true by default, so not really necessary
+  initialSortColumn: 2,       // will sort on the third column at page load
+  initialSortOrder: 'desc',   // will sort in descending order at page load
+  thSortedAscClass: 'sorting-up', // assigns 'sorting-up' class to th when appropriate
+  thSortedDescClass: 'sorting-down', // assigns 'sorting-down' class to th when appropriate,
+  oddRowClass: 'is-odd',      // assigns 'is-odd' class to odd rows in the tbody after each sort,
+  evenRowClass: 'is-even'     // assign 'is-even' class to even rows in the tbody after each sort
 });
 ```
 
