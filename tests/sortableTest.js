@@ -1,6 +1,9 @@
 /* global beforeEach, afterEach, $ */
 describe('Sortable jQuery', function(){
 
+    /*
+     * ON INITIALIZATION
+     */
     describe('On initialization', function(){
 
         var $table;
@@ -68,6 +71,9 @@ describe('Sortable jQuery', function(){
         })
     });
 
+    /*
+     * AFTER INITIALIZATION
+     */
     describe('After initialization', function(){
         var $table;
 
@@ -181,6 +187,55 @@ describe('Sortable jQuery', function(){
         });
     });
 
+    /*
+     * DATE COLUMNS
+     */
+    describe('Date columns', function(){
+        var $table;
+
+        beforeEach(function(){
+            loadFixtures('datesTable.html');
+            $table = $('#datesTable');
+        });
+
+        it('should sort by dd-MM-yyyy dates if instructed in the th', function(){
+            $table.sortable();
+
+            expect(valuesForColumn($table, 0)).toEqual(['1', '2', '3', '4']);
+
+            $table.find('thead th').eq(1).trigger('click');
+
+            expect(valuesForColumn($table, 0)).toEqual(['3', '1', '2', '4']);
+        });
+
+        it('should sort backwards by dd-MM-yyyy dates if th is clicked twice', function(){
+            $table.sortable();
+
+            $table.find('thead th').eq(1).trigger('click').trigger('click');
+
+            expect(valuesForColumn($table, 0)).toEqual(['4', '2', '1', '3']);
+        });
+
+        it('should sort by MM-dd-yyyy hh:mm:ss if instructed in the th', function(){
+            $table.sortable();
+
+            $table.find('thead th').eq(2).trigger('click');
+
+            expect(valuesForColumn($table, 0)).toEqual(['2', '1', '3', '4']);
+        });
+
+        it('should attempt to sort by ISO 8601 if no data attr is set on th', function(){
+            $table.sortable();
+
+            $table.find('thead th').eq(3).trigger('click');
+
+            expect(valuesForColumn($table, 0)).toEqual(['3', '2', '1', '4']);
+        });
+    });
+
+    /*
+     * CALLBACKS
+     */
     describe('Callbacks', function(){
         var $table,
             observer = {callback: function(){}};
