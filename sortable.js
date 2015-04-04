@@ -26,12 +26,10 @@
         sortAtStart: true,
         initialSortColumn: 0,
         initialSortOrder: 'asc',
-        classes: {
-            oddRows: '',
-            evenRows: '',
-            thSortedAsc: 'is-sorted-asc',
-            thSortedDesc: 'is-sorted-desc'
-        },
+        oddRowClass: '',
+        evenRowClass: '',
+        thSortedAscClass: 'is-sorted-asc',
+        thSortedDescClass: 'is-sorted-desc',
         onBeforeSort: function(){},
         onAfterSort: function(){}
     };
@@ -67,7 +65,7 @@
                 this.currentSortingColumnIndex = -1;
             }
 
-            if ( this.config.classes.oddRows || this.config.classes.evenRows ) {
+            if ( this.config.oddRowClass || this.config.evenRowClass ) {
                 this.setRowClasses();
             }
         },
@@ -146,16 +144,16 @@
         },
 
         setHeaderClasses: function(columnIndex, direction){
-            var thClassName = (direction === 'asc') ? this.config.classes.thSortedAsc : this.config.classes.thSortedDesc;
+            var thClassName = (direction === 'asc') ? this.config.thSortedAscClass : this.config.thSortedDescClass;
 
-            $('.' + this.config.classes.thSortedAsc + ', .' + this.config.classes.thSortedDesc).removeClass();
+            $('.' + this.config.thSortedAscClass + ', .' + this.config.thSortedDescClass).removeClass();
 
             $('th', this.$table).eq(columnIndex).addClass(thClassName);
         },
 
         setRowClasses: function(){
-            var oddRowClass = this.config.classes.oddRows,
-                evenRowClass = this.config.classes.evenRows;
+            var oddRowClass = this.config.oddRowClass,
+                evenRowClass = this.config.evenRowClass;
 
             $('tbody tr', this.$table).removeClass(oddRowClass + ' ' + evenRowClass);
 
