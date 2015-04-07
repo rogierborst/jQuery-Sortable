@@ -106,8 +106,8 @@
             var self = this;
 
             $rows.sort(function(a, b){
-                var keyA = $('td', a).eq([columnIndex]).text();
-                var keyB = $('td', b).eq([columnIndex]).text();
+                var keyA = $.trim($('td', a).eq([columnIndex]).text());
+                var keyB = $.trim($('td', b).eq([columnIndex]).text());
 
                 if ( (keyA === '' || keyB === '') && self.config.emptyLast ) {
                     return self._sortEmptyValue(keyA, keyB);
