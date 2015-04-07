@@ -30,6 +30,7 @@ Option | Description | Default
 **sortAtStart** *(boolean)* | Set to `false` if you don't want to sort the table at page load | *true*
 **initialSortColumn** *(integer)* | If `sortAtStart` is set to `true`, this is where you can define what column the table is sorted on. This value is zero-based, so to sort on the second column, `initialSortColumn` should be set to `1`. | *0*
 **initialSortOrder** *(string)* | The direction of the sort at page load. (`sortAtStart` should be `true` for this to have any effect). Can be either `'asc'` for ascending or `'desc'` for descending order. | *'asc'*
+**emptyLast** *(boolean)* | Should empty cells be treated as last in alphabet? (i.e. moved to the bottom if sorting in ascending order) | *true*
 **thSortedAscClass** *(string)* | The class assigned to the `th` when the table is sorted on that column in *ascending* order. | *'is-sorted-asc'*
 **thSortedDescClass** *(string)* | The class assigned to the `th` when the table is sorted on that column in *descending* order. | *'is-sorted-desc'*
 **oddRowClass** *(string)* | If you use classes on your table rows for zebra-striping (rather than, for example, the `nth-child(odd)` css selector), this is where you can set the class name you want applied to your *odd* rows. This class will be applied at initialization and will be re-applied after each sort. | *''*
@@ -44,9 +45,10 @@ $('table').sortable({
   sortAtStart: true,          // true by default, so not really necessary
   initialSortColumn: 2,       // will sort on the third column at page load
   initialSortOrder: 'desc',   // will sort in descending order at page load
+  emptyLast: false,           // empty cells will be treated as last in alphabet
   thSortedAscClass: 'sorting-up', // assigns 'sorting-up' class to th when appropriate
-  thSortedDescClass: 'sorting-down', // assigns 'sorting-down' class to th when appropriate,
-  oddRowClass: 'is-odd',      // assigns 'is-odd' class to odd rows in the tbody after each sort,
+  thSortedDescClass: 'sorting-down', // assigns 'sorting-down' class to th when appropriate
+  oddRowClass: 'is-odd',      // assigns 'is-odd' class to odd rows in the tbody after each sort
   evenRowClass: 'is-even'     // assign 'is-even' class to even rows in the tbody after each sort
 });
 ```
