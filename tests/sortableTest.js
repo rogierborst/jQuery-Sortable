@@ -53,11 +53,21 @@ describe('Sortable jQuery', function(){
 
             $table.sortable();
 
-            expect(valuesForColumn($table, 1)).toEqual(['4', '2', '1', '3']);
+            expect(valuesForColumn($table, 1)).toEqual(['0', '4', '2', '1', '3']);
 
             $table.find('th').eq(0).trigger('click');
 
-            expect(valuesForColumn($table, 1)).toEqual(['3', '1', '2', '4']);
+            expect(valuesForColumn($table, 1)).toEqual(['3', '1', '2', '4', '0']);
+        });
+
+        it('should allow the assignment of a string to be treated as empty value', function(){
+            $table = $('#tableWithEmptyCell');
+
+            $table.sortable({
+                treatAsEmpty: ' - '
+            });
+
+            expect(valuesForColumn($table, 1)).toEqual(['4', '2', '1', '0', '3']);
         });
 
         it('should not move empty cells to bottom if set not to in options', function(){
@@ -67,11 +77,11 @@ describe('Sortable jQuery', function(){
                 emptyLast: false
             });
 
-            expect(valuesForColumn($table, 1)).toEqual(['3', '4', '2', '1']);
+            expect(valuesForColumn($table, 1)).toEqual(['3', '0', '4', '2', '1']);
 
             $table.find('th').eq(0).trigger('click');
 
-            expect(valuesForColumn($table, 1)).toEqual(['1', '2', '4', '3']);
+            expect(valuesForColumn($table, 1)).toEqual(['1', '2', '4', '0', '3']);
         });
 
         it('should apply odd classes on odd rows if set so in options', function(){
@@ -254,6 +264,16 @@ describe('Sortable jQuery', function(){
             $('th', $table).eq(0).trigger('click');
 
             expect(valuesForColumn($table, 1)).toEqual(['3', '1', '2', '4']);
+        });
+
+        it('should allow the assignment of a string to be treated as empty value', function(){
+            $table = $('#datesTableWithFormattedEmptyCell');
+
+            $table.sortable({
+                treatAsEmpty: ' - '
+            });
+
+            expect(valuesForColumn($table, 1)).toEqual(['4', '2', '1', '3']);
         });
     });
 

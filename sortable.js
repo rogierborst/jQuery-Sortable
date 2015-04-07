@@ -1,5 +1,5 @@
 /*!
- * Sortable jQuery plugin v1.1.3
+ * Sortable jQuery plugin v1.2.0
  * https://github.com/rogierborst/jQuery-Sortable
  *
  * Copyright 2015 Rogier Borst
@@ -27,6 +27,7 @@
         initialSortColumn: 0,
         initialSortOrder: 'asc',
         emptyLast: true,
+        treatAsEmpty: '',
         oddRowClass: '',
         evenRowClass: '',
         thSortedAscClass: 'is-sorted-asc',
@@ -106,18 +107,26 @@
             var self = this;
 
             $rows.sort(function(a, b){
-                var keyA = $.trim($('td', a).eq([columnIndex]).text());
-                var keyB = $.trim($('td', b).eq([columnIndex]).text());
+                var keyA = $('td', a).eq([columnIndex]).text();
+                var keyB = $('td', b).eq([columnIndex]).text();
+                var keys = [keyA, keyB];
 
-                if ( (keyA === '' || keyB === '') && self.config.emptyLast ) {
-                    return self._sortEmptyValue(keyA, keyB);
+                for ( var i = 0; i < keys.length; i++ ) {
+                    if ( keys[i] === self.config.treatAsEmpty ) {
+                        keys[i] = '';
+                    }
+                    keys[i] = $.trim(keys[i]);
+                }
+
+                if ( (keys[0] === '' || keys[1] === '') && self.config.emptyLast ) {
+                    return self._sortEmptyValue(keys);
                 }
 
                 if ( self.currentSortingDirection === 'desc') {
-                    return (keyB).localeCompare(keyA);
+                    return (keys[1]).localeCompare(keys[0]);
                 }
 
-                return (keyA).localeCompare(keyB);
+                return (keys[0]).localeCompare(keys[1]);
             });
         },
 
@@ -130,7 +139,7 @@
                 var keyB = self._convertToDate($('td', b).eq([columnIndex]).text(), template);
 
                 if ( (keyA === '' || keyB === '') && self.config.emptyLast ) {
-                    return self._sortEmptyValue(keyA, keyB);
+                    return self._sortEmptyValue([keyA, keyB]);
                 }
 
                 if ( self.currentSortingDirection === 'desc') {
@@ -141,17 +150,17 @@
             });
         },
 
-        _sortEmptyValue: function(keyA, keyB) {
+        _sortEmptyValue: function(keys) {
             if ( this.currentSortingDirection === 'desc' ) {
-                return keyA > keyB ? 1: -1;
+                return keys[0] > keys[1] ? 1: -1;
             }
 
-            return keyA > keyB ? -1: 1;
+            return keys[0] > keys[1] ? -1: 1;
         },
 
         _convertToDate: function(dateString, template) {
-            if ( dateString === '' ) {
-                return dateString;
+            if ( dateString === '' || dateString === this.config.treatAsEmpty ) {
+                return '';
             }
 
             if ( typeof template === 'undefined' ) {
