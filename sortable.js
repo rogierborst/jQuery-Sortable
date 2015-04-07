@@ -1,5 +1,5 @@
 /*!
- * Sortable jQuery plugin v1.0.0
+ * Sortable jQuery plugin v1.1.2
  * https://github.com/rogierborst/jQuery-Sortable
  *
  * Copyright 2015 Rogier Borst
@@ -26,6 +26,7 @@
         sortAtStart: true,
         initialSortColumn: 0,
         initialSortOrder: 'asc',
+        emptyLast: true,
         oddRowClass: '',
         evenRowClass: '',
         thSortedAscClass: 'is-sorted-asc',
@@ -108,10 +109,15 @@
                 var keyA = $('td', a).eq([columnIndex]).text();
                 var keyB = $('td', b).eq([columnIndex]).text();
 
-                if ( self.currentSortingDirection === 'desc') {
-                    return keyB.localeCompare(keyA);
+                if ( (keyA === '' || keyB === '') && self.config.emptyLast ) {
+                    return self._sortEmptyValue(keyA, keyB);
                 }
-                return keyA.localeCompare(keyB);
+
+                if ( self.currentSortingDirection === 'desc') {
+                    return (keyB).localeCompare(keyA);
+                }
+
+                return (keyA).localeCompare(keyB);
             });
         },
 
@@ -123,6 +129,10 @@
                 var keyA = self._convertToDate($('td', a).eq([columnIndex]).text(), template);
                 var keyB = self._convertToDate($('td', b).eq([columnIndex]).text(), template);
 
+                if ( (keyA === '' || keyB === '') && self.config.emptyLast ) {
+                    return self._sortEmptyValue(keyA, keyB);
+                }
+
                 if ( self.currentSortingDirection === 'desc') {
                     return keyA < keyB ? 1 : -1;
                 } else {
@@ -131,7 +141,19 @@
             });
         },
 
+        _sortEmptyValue: function(keyA, keyB) {
+            if ( this.currentSortingDirection === 'desc' ) {
+                return keyA > keyB ? 1: -1;
+            }
+
+            return keyA > keyB ? -1: 1;
+        },
+
         _convertToDate: function(dateString, template) {
+            if ( dateString === '' ) {
+                return dateString;
+            }
+
             if ( typeof template === 'undefined' ) {
                 return new Date(dateString);
             }

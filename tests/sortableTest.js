@@ -48,6 +48,32 @@ describe('Sortable jQuery', function(){
             expect(valuesForColumn($table, 1)).toEqual(['4', '3', '2', '1']);
         });
 
+        it('should treat empty cells in sorting column as last in alphabet', function(){
+            $table = $('#tableWithEmptyCell');
+
+            $table.sortable();
+
+            expect(valuesForColumn($table, 1)).toEqual(['4', '2', '1', '3']);
+
+            $table.find('th').eq(0).trigger('click');
+
+            expect(valuesForColumn($table, 1)).toEqual(['3', '1', '2', '4']);
+        });
+
+        it('should not move empty cells to bottom if set not to in options', function(){
+            $table = $('#tableWithEmptyCell');
+
+            $table.sortable({
+                emptyLast: false
+            });
+
+            expect(valuesForColumn($table, 1)).toEqual(['3', '4', '2', '1']);
+
+            $table.find('th').eq(0).trigger('click');
+
+            expect(valuesForColumn($table, 1)).toEqual(['1', '2', '4', '3']);
+        });
+
         it('should apply odd classes on odd rows if set so in options', function(){
             $table.sortable({
                 oddRowClass: 'is-odd'
@@ -218,12 +244,16 @@ describe('Sortable jQuery', function(){
             expect(valuesForColumn($table, 0)).toEqual(['2', '1', '3', '4']);
         });
 
-        it('should attempt to sort by ISO 8601 if no data attr is set on th', function(){
+        it('should move empty cells to the bottom by default', function(){
+            $table = $('#datesTableWithEmptyCell');
+
             $table.sortable();
 
-            $table.find('thead th').eq(3).trigger('click');
+            expect(valuesForColumn($table, 1)).toEqual(['4', '2', '1', '3']);
 
-            expect(valuesForColumn($table, 0)).toEqual(['3', '2', '1', '4']);
+            $('th', $table).eq(0).trigger('click');
+
+            expect(valuesForColumn($table, 1)).toEqual(['3', '1', '2', '4']);
         });
     });
 
