@@ -1,6 +1,6 @@
 {
   "name": "Sortable",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Make tables easily sortable with this jQuery plugin.",
   "repository": "https://github.com/rogierborst/jQuery-Sortable",
   "main": "sortable.js",

@@ -1,5 +1,5 @@
 /*!
- * Sortable jQuery plugin v1.1.2
+ * Sortable jQuery plugin v1.1.3
  * https://github.com/rogierborst/jQuery-Sortable
  *
  * Copyright 2015 Rogier Borst
